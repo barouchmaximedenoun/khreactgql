@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "apollo-cache-inmemory": "^1.6.6",
+    "clsx": "^1.1.1",
     "graphql": "^15.4.0",
     "jest-dom": "^4.0.0",
     "jest-environment-jsdom-fifteen": "^1.0.2",
