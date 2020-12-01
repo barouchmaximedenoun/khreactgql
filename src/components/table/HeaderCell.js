@@ -31,21 +31,18 @@ export const HeaderCell = ({val, header_id, ...rest}) => {
         className={classes.th}
         onClick={() => setShowEditMode(true)}>
         {showEditMode ? 
-            <>
-                <input data-testid="input-header-cell"
-                    defaultValue={cellVal} 
-                    onBlur={async (e) => {
-                        setShowEditMode(false)
+            <input data-testid="input-header-cell"
+                defaultValue={cellVal} 
+                onBlur={async (e) => {
+                    setShowEditMode(false)
+                    try {
                         await updateHeaderName({variables: {header_id, value: e.target.value}})
-                            .catch((err) =>{
-                                console.log(`error updating header header_id=${header_id} val=${val}`, error)
-                                // Todo display in toaster component for now use alert
-                                alert('error updating header, internal error please contact your system administrator')                        
-                            })
                         setCellVal(e.target.value);
-                    }} 
-                    onClick={(e) => console.log(e)}/> 
-            </>
+                    }
+                    catch(err) {
+                        console.log('updateHeaderName err=',err);
+                    }
+                }}/> 
             : cellVal}
     </th>)
 }

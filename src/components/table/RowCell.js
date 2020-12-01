@@ -26,22 +26,21 @@ export const RowCell = ({val, header_id, row_id, ...rest}) => {
     return (
     <td data-testid="row-cell" 
         className={classes.td}
-        onClick={() => setShowEditMode(true)}>
+        onClick={() => setShowEditMode(true)}
+        onBlur={() => setShowEditMode(false)}>
         {showEditMode ? 
-            <>
-                <input data-testid="input-row-cell"
-                    defaultValue={cellVal} 
-                    onBlur={async (e) => {
-                        setShowEditMode(false)
+            <input data-testid="input-row-cell"
+                defaultValue={cellVal} 
+                onBlur={async (e) => {
+                    setShowEditMode(false);
+                    try{
                         await updateCell({variables: {header_id, row_id, value: e.target.value}})
-                            .catch((err) =>{
-                                console.log(`error updating cell header_id=${header_id} row_id=${row_id} value=${val}`, err)
-                                // Todo display in toaster component for now use alert
-                                alert('error updating cell, internal error please contact your system administrator') 
-                            })
                         setCellVal(e.target.value);
-                    }} /> 
-            </>
+                    }
+                    catch(err) {
+                        console.log('updateCell err=',err);
+                    }
+                }} />
             : cellVal}
     </td>)
 }
