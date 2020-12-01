@@ -1,8 +1,20 @@
 import {useState} from 'react'
+import {makeStyles} from '@material-ui/core/styles';
 import { useMutation } from "@apollo/client";
 import { CELL_UPDATE } from './constants';
 
+const useStyles = makeStyles(theme => {
+    return {
+        td: {
+            backgroundColor: '#fafcfd',
+            '&:hover': {
+                backgroundColor: '#eef8fd',
+            }
+        },
+    }
+});
 export const RowCell = ({val, header_id, row_id, ...rest}) => {
+    const classes = useStyles()
     const [showEditMode, setShowEditMode] = useState(false);
     const [cellVal, setCellVal] = useState(val);
     const [updateCell, {error}] = useMutation(CELL_UPDATE)
@@ -11,7 +23,10 @@ export const RowCell = ({val, header_id, row_id, ...rest}) => {
         // Todo display in toaster component for now use alert
         alert('error updating cell, check your network connection or contact your system administrator')
     }
-    return (<td data-testid="row-cell" onClick={() => setShowEditMode(true)}>
+    return (
+    <td data-testid="row-cell" 
+        className={classes.td}
+        onClick={() => setShowEditMode(true)}>
         {showEditMode ? 
             <>
                 <input data-testid="input-row-cell"

@@ -1,18 +1,38 @@
-//import {useMemo} from 'react'
+import {makeStyles} from '@material-ui/core/styles';
 import { useQuery } from "@apollo/client";
 import { ITEMS_QUERY } from './constants'
 import { HeaderCell } from './HeaderCell';
 import { RowCell } from './RowCell';
-import useTableModel from './useTableModel'
+import useTableModel from './useTableModel';
 
+const useStyles = makeStyles(theme => {
+    return {
+        table: {
+            width: '100%',
+            height: '100%',
+        },
+        thead: {
+            width: '100%',
+            height: '20px',
+        },
+        tr: {
+        },
+        tbody: {
+            height: 'calc(100% -20px)',
+            width: '100%',
+            overflow: 'auto',
+        }
+    }
+});
 export function Table() {
+    const classes = useStyles()
     const { data } = useQuery(ITEMS_QUERY);
     const tableModel = useTableModel(data);
     if(!data) return null;
     return (
-        <table>
-            <thead>
-                <tr>
+        <table className={classes.table}>
+            <thead className={classes.thead}>
+                <tr className={classes.tr}>
                     {tableModel.getHeaders().map( col => {
                         return <HeaderCell key={col.header_id}
                                     header_id={col.header_id}
@@ -21,7 +41,7 @@ export function Table() {
                     })}
                 </tr>
             </thead>
-            <tbody>
+            <tbody className={classes.tbody}>
             {
                 tableModel.getRows().map( row => {
                     return <tr key={row.row_id}>
